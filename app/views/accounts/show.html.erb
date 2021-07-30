@@ -1,0 +1,146 @@
+<body>
+    <table id="customers">
+        <tr>
+            <th style="width: 70%; text-align: center">Conta Corrente</th>
+            <th style="text-align: center"><%= link_to "Voltar", root_path, class: "index-link" %></th>
+        </tr>
+    </table>
+
+    <table id="customers">
+        <tr>
+            <td>Conta Corrente</td>
+            <td><%= @account.id %></td>
+        </tr>
+        <tr>
+            <td>Nome</th>
+            <td><%= @account.name %></td>
+        </tr>
+        <tr>
+            <td>CPF</th>
+            <td><%= @account.cpf %></td>
+        </tr>
+        <tr>
+            <td>RG</th>
+            <td><%= @account.rg %></td>
+        </tr>
+        <tr>
+            <td>Data de Nascimento</th>
+            <td><%= @account.dt_nasc %></td>
+        </tr>
+        <tr>
+            <th>Saldo da Conta</th>
+            <th style="text-align: end">
+                <%= number_to_currency(@account.balance, :unit => "R$ ", :separator => ",", :delimiter => ".") %> 
+            </th>            
+
+        </tr>                                                                                                                   
+    </table>
+    <table id="customers">
+        <tr>
+            <th style="text-align: center;">
+                <%= link_to "Editar", edit_account_path(@account), class: "index-link" %>
+            </th>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    
+    <%= form_with model: [ @account, @account.transactions.build ] do |form| %>
+        <table id="customers">
+            <tr>
+                <th style="text-align: center">Realizar nova transação</th>
+            </tr>
+        </table>
+        <table id="customers">
+            <tr>
+                <td>Tipo da transação (credit/debt)</td>
+                <td> <%= form.text_field :transaction_type %>
+                </td>
+            </tr>
+            <tr>
+                <td><%= form.label "Valor" %></td>
+                <td><%= form.number_field :value %>
+                </td>
+            </tr>
+            <tr>
+                <td> <%= form.label "Data" %></td>
+                <td><%= form.date_field :transaction_date %>
+                </td>
+            </tr>
+        </table>
+        <table id="customers">
+            <tr>
+                <th style="text-align: center;">
+                    <%= form.submit "Confirmar" %> 
+                </th>
+            </tr>
+        </table>
+    <% end %>
+    <br/>
+    <br/>
+
+    <table id="customers">
+        <tr>
+            <th style="text-align: center">Histórico de Transações</th>
+        </tr>
+    </table>
+
+    <table id="customers">
+        <tr>
+            <th style="width: 8em;">Data</th>
+            <th style="width: 16em;">Tipo</th>
+            <th style="width: 10em;">Valor</th>
+        </tr>
+
+        <% @account.transactions.each do |transaction| %>
+            <tr>
+                <td style="text-align: center"><%= transaction.transaction_date %> </td>
+                <td style="text-align: center"><%= transaction.transaction_type %> </td>
+                <td style="text-align: end">
+                    <%= number_to_currency(transaction.value, :unit => "R$ ", 
+                        :separator => ",", :delimiter => ".") %> 
+                </td>
+            </tr>
+        <% end %>
+    </table>
+
+    
+</body>
+
+<style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 70%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+    background-color: #ddd;
+}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.index-link {
+    color: white;
+}
+
+.index-link-acess {
+    color: black;
+}
+
+</style>
